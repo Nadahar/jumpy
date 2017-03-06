@@ -506,7 +506,7 @@ public class player extends Player implements jumpyAPI {
 			Method method = FormatFactory.class.getMethod("addFormat", Format.class);
 			method.invoke(null, format);
 			return;
-		} catch (SecurityException | NoSuchMethodException | IllegalArgumentException | IllegalAccessException | InvocationTargetException e) {
+		} catch (Exception e) {
 			// Wrong version, do it the "old way"
 		}
 		FormatFactory.getSupportedFormats().add(0, format);

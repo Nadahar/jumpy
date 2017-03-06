@@ -9,6 +9,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.HashMap;
 import java.util.Map;
 import net.pms.dlna.DLNAResource;
+import net.pms.dlna.DLNAThumbnailInputStream;
 import net.pms.network.HTTPResource;
 
 public class xmbObject extends DLNAResource implements jumpyAPI {
@@ -81,20 +82,19 @@ public class xmbObject extends DLNAResource implements jumpyAPI {
 	}
 
 	@Override
-	public InputStream getThumbnailInputStream() throws IOException {
+	public DLNAThumbnailInputStream getThumbnailInputStream() throws IOException {
 		if (thumbnail != null) {
 			try {
-				return new FileInputStream(thumbnail);
+				return DLNAThumbnailInputStream.toThumbnailInputStream(new FileInputStream(thumbnail));
 			} catch (Exception e) {}
 			try {
-				return downloadAndSend(thumbnail, true);
+				return DLNAThumbnailInputStream.toThumbnailInputStream(downloadAndSend(thumbnail, true));
 			} catch (Exception e) {}
 			jumpy.logonce("can't get thumbnail: " + thumbnail, thumbnail, false);
 		}
 		return null;
 	}
 
-	@Override
 	public String getThumbnailContentType() {
 		return thumbtype;
 	}
